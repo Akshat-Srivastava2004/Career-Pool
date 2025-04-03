@@ -7,10 +7,13 @@ import { Company } from "../models/employee_model.js";
 const companyregister=async(req,res)=>{
 
     const {email,companyname}=req.body;
+    console.log(" Received Body:", req.body);
+    console.log(" Received Files:", req.files);
+    console.log("Received File:", req.file);
     try {
         const requiredFields = [
             "companyname", "companydescription", "companysize", "companywebsite", 
-            "firstName", "lastName", "zipCode", "phone", "email", "logo", 
+            "firstName", "lastName", "zipCode", "phone", "email", 
             "industry", "password", "address", "city", "state"
         ];
     
@@ -31,7 +34,7 @@ const companyregister=async(req,res)=>{
         if(existedcompany){
             throw new ApiError(400,"company already existed ")
         }
-        const companylogo=req.files?.companylogo?.[0]?.path;
+        const companylogo=req.files?.logo?.[0]?.path;
         console.log("req.files:", req.files);
         console.log("the report path is ",companylogo)
         
@@ -44,20 +47,20 @@ const companyregister=async(req,res)=>{
         console.log("the companylogopath from the cloudinary is ",companylogopath);
 
         const Companydetails=await Company.create({
-            firstName:requiredFields[4],
-            lastName:requiredFields[5],
-            companyname:requiredFields[0],
-            companysize:requiredFields[2],
-            companydescription:requiredFields[1],
-            email:requiredFields[8],
-            zipcode:requiredFields[6],
-            city:requiredFields[13],
-            state:requiredFields[14],
-            phone:requiredFields[7],
-            address:requiredFields[12],
-            industry:requiredFields[10],
-            Password:requiredFields[11],
-            companylogo:companylogopath
+            firstName:req.body[requiredFields[4]],
+            lastName:req.body[requiredFields[5]],
+            companyname:req.body[requiredFields[0]],
+            companysize:req.body[requiredFields[2]],
+            companydescription:req.body[requiredFields[1]],
+            email:req.body[requiredFields[8]],
+            zipcode:req.body[requiredFields[6]],
+            city:req.body[requiredFields[12]],
+            state:req.body[requiredFields[13]],
+            phone:req.body[requiredFields[7]],
+            address:req.body[requiredFields[11]],
+            industry:req.body[requiredFields[9]],
+            password:req.body[requiredFields[10]],
+            logo:companylogopath.url
         })
         const createdcompany=await Company.findById(Companydetails._id).select(
             "-Password -refreshToken"
@@ -98,8 +101,8 @@ const generateAcessTokenAndRefereshTokens=async(companyId)=>{
     // company ENTERING THE companyNAME AND PASSWORD FOR LOGIN//
 
 const logincompany=(async(req,res)=>{
-    const {email,Password}=req.body
-    console.log(email,Password)
+    const {email,password}=req.body
+    console.log(email,password)
     
     if(!email){
         throw new ApiError(400,"email is required")
@@ -110,7 +113,7 @@ const logincompany=(async(req,res)=>{
     if(!company){
         throw new ApiError(400,"company doesnot exist with this email")
     }
-    const isPasswordvalid=await company.isPasswordCorrect(Password)
+    const isPasswordvalid=await company.isPasswordCorrect(password)
     console.log(isPasswordvalid)
 
     if(!isPasswordvalid){
@@ -126,12 +129,13 @@ const logincompany=(async(req,res)=>{
      const loggedIncompany=await Company.findById(company._id)
     //  select({ password: 0, refreshToken: 0 });
      console.log(loggedIncompany)
- 
+     const companyData = company.toObject(); 
+     delete companyData.password;
+     delete companyData.refreshToken;
      const options={
          httpOnly:true,
          secure:true
      }
-     const companyemail=email;
      
                                 // SENDING THE TOKEN IN THE COOKIES//
                                 
@@ -140,7 +144,7 @@ const logincompany=(async(req,res)=>{
      .cookie("refreshToken",refreshToken,options)
      .json({
         message:"Login successfully",
-        data:companyemail
+        companydetails:companyData
      })
      
 })

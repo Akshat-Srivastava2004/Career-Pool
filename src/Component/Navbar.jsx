@@ -1,5 +1,4 @@
 import { Briefcase } from "lucide-react";
-import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
@@ -12,32 +11,32 @@ export default function Navbar() {
           </span>
         </div>
         <nav className="hidden md:flex space-x-8">
-          <Link to="/" className="text-gray-700 hover:text-indigo-600">
+          <a to="/" className="text-gray-700 hover:text-indigo-600">
             Home
-          </Link>
-          <Link to="/jobs" className="text-gray-700 hover:text-indigo-600">
+          </a>
+          <a to="/jobs" className="text-gray-700 hover:text-indigo-600">
             Find Jobs
-          </Link>
-          <Link to="/employers" className="text-gray-700 hover:text-indigo-600">
+          </a>
+          <a href="/postjob" className="text-gray-700 hover:text-indigo-600">
             For Employers
-          </Link>
-          <Link to="/about" className="text-gray-700 hover:text-indigo-600">
+          </a>
+          <a to="/about" className="text-gray-700 hover:text-indigo-600">
             About Us
-          </Link>
+          </a>
         </nav>
         <div className="flex space-x-4">
-          <Link
+          <a
             to="/login"
             className="px-4 py-2 text-indigo-600 border border-indigo-600 rounded-md hover:bg-indigo-50"
           >
             Log In
-          </Link>
-          <Link
+          </a>
+          <a
             to="/signup"
             className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
           >
             Sign Up
-          </Link>
+          </a>
         </div>
       </div>
     </header>

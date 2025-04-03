@@ -9,15 +9,19 @@ import { PostJob } from "../models/postjob_models.js";
 
 
 const jobsekers=async(req,res)=>{
-    const {email}=req.body;
+    const {firstName,lastName,email,password,phone,address,city,state,zipCode,education,skills,job}=req.body;
+    console.log(firstName,lastName,email,password,phone,address,city,state,zipCode,education,skills,job);
+    console.log(" Received Body:", req.body);
+    console.log(" Received Files:", req.files);
+    console.log("Received File:", req.file);
     try {
         const requiredFields = [
-            "firstName","lastName","zipcode",
+            "firstName","lastName","zipCode",
             "address","state","phone",
-            "city","resume","skills","education",
+            "city","skills","education",
             "job","email","Password"
         ];
-        
+        console.log("all the require fields ",requiredFields)
     
         const missingfield=requiredFields.filter(field=>!req.body[field]);
     
@@ -25,10 +29,11 @@ const jobsekers=async(req,res)=>{
         if(missingfield.length>0){
             return res.status(400).json({
                success:false,
-               message:`Missing required a field ${missingfield.join(", ")} `
+               message:`Missing required a field ${missingfield.join(", ")} `,
+               missingFieldsArray: missingfield
             })
         }
-    const existedJobseekers=await Jobseekers.findOne({
+        const existedJobseekers=await Jobseekers.findOne({
                 $or:[{email}]
             })
     
@@ -38,29 +43,33 @@ const jobsekers=async(req,res)=>{
             const jobseekersresume=req.files?.resume?.[0]?.path;
             console.log("req.files:", req.files);
             console.log("the report path is ",jobseekersresume)
-       if(!jobseekersresume){
-                throw new ApiError(400,"company logo is not defined ")
-            }
+      
+           if (!jobseekersresume) {
+           return res.status(400).json({ message: "No file uploaded" });
+           }
+
+           console.log(" Resume File Path:", jobseekersresume);
     
             const jobseekersresumepath=await uploadOnCloudinary(jobseekersresume)
             console.log("the companylogopath from the cloudinary is ",jobseekersresumepath);
     
-            const jobseekersdetails=await Jobseekers.create({
-                firstName:requiredFields[4],
-                lastName:requiredFields[5],
-                education:requiredFields[0],
-                skills:requiredFields[2],
-                Job:requiredFields[1],
-                email:requiredFields[8],
-                zipcode:requiredFields[6],
-                city:requiredFields[13],
-                state:requiredFields[14],
-                phone:requiredFields[7],
-                address:requiredFields[12],
-                Password:requiredFields[11],
-                resume:jobseekersresume
-            })
-            const createdjobeekers=await Jobseekers.findById(jobseekersdetails._id).select(
+            const jobseekersDetails = await Jobseekers.create({
+                firstName: req.body[requiredFields[0]],  
+                lastName: req.body[requiredFields[1]],     
+                zipcode: req.body[requiredFields[2]],      
+                address: req.body[requiredFields[3]],        
+                state: req.body[requiredFields[4]],          
+                phone: req.body[requiredFields[5]],         
+                city: req.body[requiredFields[6]],          
+                skills: req.body[requiredFields[7]],         
+                education: req.body[requiredFields[8]],        
+                Job: req.body[requiredFields[9]],           
+                email: req.body[requiredFields[10]],          
+                password: req.body[requiredFields[11]],        
+                resume: jobseekersresumepath.url
+              });
+              
+            const createdjobeekers=await Jobseekers.findById(jobseekersDetails._id).select(
                 "-Password -refreshToken"
             )
     
@@ -72,17 +81,19 @@ const jobsekers=async(req,res)=>{
            throw new ApiError(400,"error aagaya hain bhaiya ",error)
         }
     }
-const generateAcessTokenAndRefereshTokens=async(companyId)=>{
+const generateAccessTokenAndRefreshTokens=async(JobseekersId)=>{
     try {
-        const Jobseekers=await Jobseekers.findById(companyId)
-        console.log(Jobseekers);
-        const accessToken=Jobseekers.generateAcessToken()
-        const refreshToken=Jobseekers.generateRefreshToken()
+        const Jobseeker = await Jobseekers.findById(JobseekersId);
+        if (!Jobseeker) {
+       throw new ApiError(404, "Jobseeker not found");
+       }
+        const accessToken=Jobseeker.generateAccessToken()
+        const refreshToken=Jobseeker.generateRefreshToken()
         console.log("accessToken is :",accessToken)
         console.log("refreshToken is :",refreshToken
         )
-        Jobseekers.refreshToken=refreshToken;
-        await Jobseekers.save();
+        Jobseeker.Refreshtoken=refreshToken;
+        await Jobseeker.save();
        console.log("token aagya hai wth ")
         // console.log(refreshToken)
         // await company.save({validateBeforeSave:false})
@@ -96,19 +107,19 @@ const generateAcessTokenAndRefereshTokens=async(companyId)=>{
     // company ENTERING THE companyNAME AND PASSWORD FOR LOGIN//
 
 const loginjobseekers=(async(req,res)=>{
-    const {email,Password}=req.body
-    console.log(email,Password)
+    const {email,password}=req.body
+    console.log(email,password)
     
     if(!email){
         throw new ApiError(400,"email is required")
     }
-    const Jobseekers=await Jobseekers.findOne({
+    const Jobseekersone=await Jobseekers.findOne({
         $or:[{email}]
     })
-    if(!Jobseekers){
+    if(!Jobseekersone){
         throw new ApiError(400,"company doesnot exist with this email")
     }
-    const isPasswordvalid=await Jobseekers.isPasswordCorrect(Password)
+    const isPasswordvalid=await Jobseekersone.isPasswordCorrect(password)
     console.log(isPasswordvalid)
 
     if(!isPasswordvalid){
@@ -117,11 +128,11 @@ const loginjobseekers=(async(req,res)=>{
 
     
  const {accessToken,refreshToken}= 
-    await generateAcessTokenAndRefereshTokens(Jobseekers._id)
+    await generateAccessTokenAndRefreshTokens(Jobseekersone._id)
     console.log(accessToken)
     console.log(refreshToken)
  
-     const loggedIncompany=await Jobseekers.findById(Jobseekers._id)
+     const loggedIncompany=await Jobseekers.findById(Jobseekersone._id)
     //  select({ password: 0, refreshToken: 0 });
      console.log(loggedIncompany)
  
@@ -130,7 +141,7 @@ const loginjobseekers=(async(req,res)=>{
          secure:true
      }
      const Jobseekersemail=email;
-     
+     const JobseekersoneData = Jobseekersone.toObject(); 
                                 // SENDING THE TOKEN IN THE COOKIES//
                                 
      return res
@@ -138,7 +149,7 @@ const loginjobseekers=(async(req,res)=>{
      .cookie("refreshToken",refreshToken,options)
      .json({
         message:"Login successfully",
-        data:Jobseekersemail
+        jobseekdetail:JobseekersoneData
      })
      
 })

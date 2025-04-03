@@ -11,11 +11,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Briefcase, User, Loader2 } from "lucide-react"
 import { AuthContext } from "@/Component/AuthContext"
+import Navbar from "@/Component/Navbar"
 export default function LoginPage() {
 const [email,setEmail]=useState("");
 const [password,setPassword]=useState("");
 const {login}=useContext(AuthContext);
-const {logicompany}=useContext(AuthContext);
+const {logincompany}=useContext(AuthContext);
+
 const [error, setError] = useState({
 
     jobSeeker: "",
@@ -30,12 +32,15 @@ const handleSubmitjobseekers = async(e)=>{
 
 const handleSubmitcompany=async(e)=>{
     e.preventDefault();
-    logicompany(email,password)
+    logincompany(email,password)
 }
 
 
   return (
-    <div className="container flex items-center justify-center min-h-screen py-10 px-4">
+    <div>
+      <Navbar />
+ <div className="container flex items-center justify-center min-h-screen py-10 px-4">
+      
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold">Welcome to CareerPool</h1>
@@ -68,7 +73,7 @@ const handleSubmitcompany=async(e)=>{
 
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" name="email" type="email" placeholder="name@example.com"  onchange={(e)=>setEmail(e.target.value)} required />
+                    <Input id="email" name="email" type="email" placeholder="name@example.com"  onChange={(e)=>setEmail(e.target.value)} required />
                   </div>
 
                   <div className="space-y-2">
@@ -78,7 +83,7 @@ const handleSubmitcompany=async(e)=>{
                         Forgot password?
                       </Link>
                     </div>
-                    <Input id="password" name="password" type="password" onchange={(e)=>setPassword(e.target.value)}required />
+                    <Input id="password" name="password" type="password" onChange={(e)=>setPassword(e.target.value)}required />
                   </div>
 
                   <div className="flex items-center space-x-2">
@@ -120,7 +125,7 @@ const handleSubmitcompany=async(e)=>{
 
                   <div className="space-y-2">
                     <Label htmlFor="employer-email">Email</Label>
-                    <Input id="employer-email" name="email" type="email" placeholder="name@company.com"  onchange={(e)=>setEmail(e.target.value)} required />
+                    <Input id="employer-email" name="email" type="email" placeholder="name@company.com"  onChange={(e)=>setEmail(e.target.value)} required />
                   </div>
 
                   <div className="space-y-2">
@@ -130,7 +135,7 @@ const handleSubmitcompany=async(e)=>{
                         Forgot password?
                       </Link>
                     </div>
-                    <Input id="employer-password" name="password" type="password"   onchange={(e)=>setPassword(e.target.value)}  required />
+                    <Input id="employer-password" name="password" type="password"   onChange={(e)=>setPassword(e.target.value)}  required />
                   </div>
 
                   <div className="flex items-center space-x-2">
@@ -160,6 +165,8 @@ const handleSubmitcompany=async(e)=>{
         </Tabs>
       </div>
     </div>
+    </div>
+   
   )
 }
 

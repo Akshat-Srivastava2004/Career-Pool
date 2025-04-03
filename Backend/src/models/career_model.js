@@ -2,7 +2,7 @@ import mongoose,{Schema} from "mongoose";
 
 const Careerschema = new Schema({
     Email:{
-        type: mongoose.Schema.Types.ObjectId,
+        type:String,
         require:true,
     },
     Resume:{
@@ -21,4 +21,4 @@ const Careerschema = new Schema({
     timestamps:true
 })
 
-export const Career=mongoose.model("Career",Careerschema)
+export const Career = mongoose.model("Career",Careerschema)

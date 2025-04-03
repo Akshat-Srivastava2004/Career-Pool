@@ -2,7 +2,7 @@ import mongoose,{Schema} from "mongoose";
 
 const Feedbackschema=new Schema({
     firstName:{
-        type: mongoose.Schema.Types.ObjectId,
+        type:String,
         require:true,
     },
     Rating:{
@@ -15,16 +15,13 @@ const Feedbackschema=new Schema({
         index:true,
     },
     Email:{
-        type:mongoose.Schema.Types.ObjectId,
-        require:true,
+        type:String,
+        required: true,
     },
     Messsage:{
-        String:true,
+        type:String,
         require:true,
     },
-  
-
-
 },{
 
     timestamps:true

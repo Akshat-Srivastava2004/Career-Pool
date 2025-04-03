@@ -1,11 +1,12 @@
 import express from "express";
 import cors from "cors";
+import {Server}  from "socket.io";
 import cookieParser from "cookie-parser";
-// import userRouter from './routes/user.route.js';
-// import session from "express-session";
-// import path from "path";
 import routerjobseekers from "./routes/jobseeker.routes.js";
 import routercompany from "./routes/company.routes.js";
+import adminrouter from "./routes/admin.routes.js";
+import { chatrouter } from "./routes/chat.routes.js";
+
 console.log("inside the app.js file");
 // MIDDLEWARE
 
@@ -14,12 +15,7 @@ console.log("inside the app.js file");
 
 const app=express()
 
- // Initialize Socket.IO with the HTTP server
 
-// Middleware setup...
-// Your existing middleware setup goes here...
-
-// Socket.IO connection handling
 
 app.use(cors())
 
@@ -35,9 +31,8 @@ app.use(cors())
 //         },
 //     })
 // );
-app.use(express.json({
-    limit:"16kb"              // backend or server per jo date aaa raha hain vo json format me aa sakta hain aur uski limit 16kb
-}))
+app.use(express.json())
+              // backend or server per jo date aaa raha hain vo json format me aa sakta hain aur uski limit 16kb))
 app.use(express.urlencoded({
     extended:true,                   //configuration -ye url ke liye jabh user url enter kar to jo data d
     limit:"16kb"                    // display hoga to upper jo url ayega usko manage kar le 
@@ -48,7 +43,10 @@ app.use(cookieParser())
 
 app.use("/api/v1/company", routercompany);
 app.use("/api/v1/jobseekers",routerjobseekers);
-
-  
+app.use("/api/v1/admin",adminrouter);
+app.use("/api/v1/chat",chatrouter);
+app.get("/", (req, res) => {
+  res.send("Server is running!");
+});
   
 export { app };

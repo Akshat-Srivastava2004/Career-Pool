@@ -65,20 +65,20 @@ export default function EmployerRegistration() {
             <CardTitle>Employer Registration</CardTitle>
             <CardDescription>Fill in your company details to create your employer account</CardDescription>
           </CardHeader>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} encType="multipart/form-data">
             <CardContent className="space-y-6">
               <div className="space-y-4">
                 <h3 className="text-lg font-medium">Company Information</h3>
 
                 <div className="space-y-2">
                   <Label htmlFor="companyName">Company Name *</Label>
-                  <Input id="companyName" name="companyName"  onchange={(e)=>setCompanyname(e.target.value) } required />
+                  <Input id="companyName" name="companyName"  onChange={(e)=>setCompanyname(e.target.value) } required />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="industry">Industry *</Label>
-                    <Select name="industry" defaultValue="technology" onchange={(e)=>setIndustry(e.target.value) }>
+                    <Select name="industry" defaultValue="technology" onValueChange={(value)=>setIndustry(value) }>
                       <SelectTrigger>
                         <SelectValue placeholder="Select industry" />
                       </SelectTrigger>
@@ -95,7 +95,7 @@ export default function EmployerRegistration() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="companySize">Company Size *</Label>
-                    <Select name="companySize" defaultValue="11-50" onchange={(e)=>setCompanysize(e.target.value) }>
+                    <Select name="companySize" defaultValue="11-50" onValueChange={(value)=>setCompanysize(value) }>
                       <SelectTrigger>
                         <SelectValue placeholder="Select company size" />
                       </SelectTrigger>
@@ -113,7 +113,7 @@ export default function EmployerRegistration() {
 
                 <div className="space-y-2">
                   <Label htmlFor="companyWebsite">Company Website</Label>
-                  <Input id="companyWebsite" name="companyWebsite" type="url" placeholder="https://yourcompany.com" onchange={(e)=>setCompanywebsite(e.target.value) } />
+                  <Input id="companyWebsite" name="companyWebsite" type="url" placeholder="https://yourcompany.com" onChange={(e)=>setCompanywebsite(e.target.value) } />
                 </div>
 
                 <div className="space-y-2">
@@ -121,7 +121,7 @@ export default function EmployerRegistration() {
                   <Textarea
                     id="companyDescription"
                     name="companyDescription"
-                    onchange={(e)=>setCompanyDescription(e.target.value) }
+                    onChange={(e)=>setCompanyDescription(e.target.value) }
                     placeholder="Tell potential candidates about your company, culture, and mission"
                     required
                   />
@@ -129,7 +129,7 @@ export default function EmployerRegistration() {
 
                 <div className="space-y-2">
                   <Label htmlFor="logo">Company Logo</Label>
-                  <Input id="logo" name="logo" type="file" onchange={(e)=>setLogo(e.target.value) } />
+                  <Input id="logo" name="logo" type="file" onChange={(e)=>setLogo(e.target.files[0])} />
                   <p className="text-xs text-muted-foreground">Accepted formats: JPG, PNG (Max 2MB)</p>
                 </div>
               </div>
@@ -140,28 +140,28 @@ export default function EmployerRegistration() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">First Name *</Label>
-                    <Input id="firstName" name="firstName" required onchange={(e)=>setFirstName(e.target.value) } />
+                    <Input id="firstName" name="firstName" required onChange={(e)=>setFirstName(e.target.value) } />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="lastName">Last Name *</Label>
-                    <Input id="lastName" name="lastName" required onchange={(e)=>setLastName(e.target.value) } />
+                    <Input id="lastName" name="lastName" required onChange={(e)=>setLastName(e.target.value) } />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="email">Email *</Label>
-                    <Input id="email" name="email" type="email" required  onchange={(e)=>setEmail(e.target.value) }/>
+                    <Input id="email" name="email" type="email" required  onChange={(e)=>setEmail(e.target.value) }/>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="phone">Phone Number *</Label>
-                    <Input id="phone" name="phone" type="tel" required  onchange={(e)=>setPhone(e.target.value) } />
+                    <Input id="phone" name="phone" type="tel" required  onChange={(e)=>setPhone(e.target.value) } />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="password">Password *</Label>
-                  <Input id="password" name="password" type="password" onchange={(e)=>setPassword(e.target.value)}   required />
+                  <Input id="password" name="password" type="password" onChange={(e)=>setPassword(e.target.value)}   required />
                 </div>
               </div>
 
@@ -170,21 +170,21 @@ export default function EmployerRegistration() {
 
                 <div className="space-y-2">
                   <Label htmlFor="address">Address *</Label>
-                  <Input id="address" name="address"  onchange={(e)=>setAddress(e.target.value) } required />
+                  <Input id="address" name="address"  onChange={(e)=>setAddress(e.target.value) } required />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="city">City *</Label>
-                    <Input id="city" name="city"  onchange={(e)=>setCity(e.target.value) } required />
+                    <Input id="city" name="city"  onChange={(e)=>setCity(e.target.value) } required />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="state">State *</Label>
-                    <Input id="state" name="state"  onchange={(e)=>setState(e.target.value) } required />
+                    <Input id="state" name="state"  onChange={(e)=>setState(e.target.value) } required />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="zipCode">Zip Code *</Label>
-                    <Input id="zipCode" name="zipCode"  onchange={(e)=>setZipCode(e.target.value) } required />
+                    <Input id="zipCode" name="zipCode"  onChange={(e)=>setZipCode(e.target.value) } required />
                   </div>
                 </div>
               </div>

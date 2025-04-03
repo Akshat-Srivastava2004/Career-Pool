@@ -7,19 +7,33 @@ import LoginPage from "./Pages/Company/Login";
 import PostJobPage from "./Pages/Company/posting";
 import FeedbackPage from "./Pages/Admin/feedback";
 import CareerPortal from "./Pages/Admin/career";
+import AdminPage from "./Pages/Admin/admin";
+import AboutUsPage from "./Pages/Admin/aboutus";
+import AdminLogin from "./Pages/Admin/login";
+import JobSeekersPage from "./Pages/Job_seekers/display";
+import ChatPage from "./Pages/Job_seekers/chat";
+import { ChatProvider } from "./Component/ChatProvider";
 
 function App() {
   return (
     <AuthProvider>
+      <ChatProvider>
       <Routes>
+        <Route path="/chat" element={<ChatPage />}/>
+        <Route path="/display" element={<JobSeekersPage />}/>
+        <Route path="/adminlogin" element={<AdminLogin />}/>
+        <Route path="/aboutus" element={<AboutUsPage />}/>
+        <Route path="/adminpage" element={<AdminPage />}/>
         <Route path="/career" element={<CareerPortal />}/>
         <Route path="/feedback" element={<FeedbackPage />}/>
         <Route path="/postjob" element={<PostJobPage />}/>
         <Route path="/" element={<Landingpage />} />
-        <Route path="/login" element={< LoginPage />}/>
-        <Route path="/job_seekersregister" element={<ApplicantRegistration />} />
+        <Route path="/login" element={<LoginPage />}/>
+        <Route path="/jobseekersregister" element={<ApplicantRegistration />} />
         <Route path="/company/register" element={<EmployerRegistration />} />
       </Routes>
+      </ChatProvider>
+    
     </AuthProvider>
   );
 }

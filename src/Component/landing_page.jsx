@@ -113,16 +113,19 @@ export default function Landingpage() {
             </span>
           </div>
           <nav className="hidden md:flex space-x-8">
-            <a href="#" className="text-gray-700 hover:text-indigo-600">
-              Home
+            <a href="/career" className="text-gray-700 hover:text-indigo-600">
+              Career
             </a>
-            <a href="#" className="text-gray-700 hover:text-indigo-600">
+            <a href="/display" className="text-gray-700 hover:text-indigo-600">
               Find Jobs
             </a>
-            <a href="#" className="text-gray-700 hover:text-indigo-600">
+            <a href="/feedback" className="text-gray-700 hover:text-indigo-600">
+              Feedback
+            </a>
+            <a href="/postjob" className="text-gray-700 hover:text-indigo-600">
               For Employers
             </a>
-            <a href="#" className="text-gray-700 hover:text-indigo-600">
+            <a href="/aboutus" className="text-gray-700 hover:text-indigo-600">
               About Us
             </a>
           </nav>
@@ -133,11 +136,11 @@ export default function Landingpage() {
             </button>
             </Link>
           
-            <Link to="/job_seekers/register" >
+            <a href="/jobseekersregister" >
             <button className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
               Sign Up
             </button>
-            </Link>
+            </a>
        
           </div>
         </div>

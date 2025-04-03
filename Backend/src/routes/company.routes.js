@@ -1,19 +1,21 @@
 import { Router } from "express";
 import { upload } from "../middlewares/multer.middleware.js";
-import { jobsekers, loginjobseekers } from "../controllers/job_seekers_controller.js";
 import { postjob } from "../controllers/postjob_controller.js";
+import { logoutUser } from "../controllers/logout_controller.js";
+import { companyregister } from "../controllers/company_controller.js";
+import { logincompany } from "../controllers/company_controller.js";
 const routercompany=Router();
 
-routercompany.route("/jobseekersregister").post(
+
+routercompany.route("/companyregister").post(
     upload.fields([
         {
-            name:"resume",
-        }
+            name:"logo",
+        }  
     ]),
-    jobsekers
+    companyregister
 )
-
-routercompany.route("/jobseekerslogin").post(loginjobseekers)
+routercompany.route("/comapanylogin").post(logincompany)
 routercompany.route("/postjob").post(postjob)
-
+routercompany.route("/companyroute").post(logoutUser)
 export default routercompany

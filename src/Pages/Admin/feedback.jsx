@@ -18,7 +18,7 @@ export default function FeedbackPage() {
   const [feedbackType, setFeedbackType] = useState("suggestion")
   const [submitted, setSubmitted] = useState(false)
   const [rating, setRating] = useState(0)
-  const feedbackhelper=useContext(AuthContext)
+  const {feedbackhelper}=useContext(AuthContext)
   const handleSubmit = (e) => {
     e.preventDefault()
     // Here you would typically send the data to your server

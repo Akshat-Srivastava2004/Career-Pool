@@ -1,5 +1,5 @@
 "use client";
-
+import { useEffect } from "react";
 import { useContext, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -42,9 +42,14 @@ import {
 import { AuthContext } from "@/Component/AuthContext";
 import Navbar from "@/Component/Navbar";
 export default function PostJobPage() {
-  const postjob = useContext(AuthContext);
+  const {postjob} = useContext(AuthContext);
+
+
+
+  const [companyname,setCompanyname]=useState("");
+  const [companyid,setCompanyid]=useState("")
   const [jobtitle, setJobtitle] = useState("");
-  const [positiontype, setPositionType] = useState("");
+  const [positiontype, setPositiontype] = useState("job");
   const [department, setDepartment] = useState("");
   const [numberposition, setNumberposition] = useState("");
   const [location, setLocation] = useState("");
@@ -57,13 +62,25 @@ export default function PostJobPage() {
   const [requirement, setRequirement] = useState("");
   const [skills, setSkills] = useState("");
   const [dateapply, setDateapply] = useState("");
-  const [enddate, setEnddate] = useState("");
   const [startdate, setStartdate] = useState("");
-  const [enddatetostart, setEnddatetostart] = useState("");
-  console.log(setEnddate);
-  console.log(setEnddatetostart);
+  useEffect(() => {
+    const storedCompanyname = sessionStorage.getItem("companyname");
+    const storedCompanyid = sessionStorage.getItem("companyid");
+  
+    if (storedCompanyname && storedCompanyid) {
+      setCompanyname(storedCompanyname);
+      setCompanyid(storedCompanyid);
+    }
+  
+    console.log("Session Storage - Company Name:", storedCompanyname);
+    console.log("Session Storage - Company ID:", storedCompanyid);
+  }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!companyname) {
+      alert("Please log in first to post a job.");
+      return;
+    }
     postjob(
       jobtitle,
       positiontype,
@@ -79,9 +96,8 @@ export default function PostJobPage() {
       requirement,
       skills,
       dateapply,
-      enddate,
       startdate,
-      enddatetostart
+      companyid,
     );
   };
 
@@ -107,14 +123,25 @@ export default function PostJobPage() {
           <form onSubmit={handleSubmit}>
             <CardContent className="space-y-6">
               {/* Basic Information */}
-              <div className="space-y-4">
+              
+
+              <div className="space-y-2">
+                <Label htmlFor="company">Company Name *</Label>
+                <Input
+                  id="company"
+                  name="company"
+                  placeholder="Enter your company name"
+                  value={companyname}
+                  // onChange={(e) => setCompanyname(e.target.value)}
+                  required
+                />
                 <div className="space-y-2">
                   <Label htmlFor="title">Job Title *</Label>
                   <Input
                     id="title"
                     name="title"
                     placeholder="e.g. Frontend Developer, Marketing Intern"
-                    onchange={(e) => setJobtitle(e.target.value)}
+                    onChange={(e) => setJobtitle(e.target.value)}
                     required
                   />
                 </div>
@@ -122,9 +149,9 @@ export default function PostJobPage() {
                 <div className="space-y-2">
                   <Label>Position Type *</Label>
                   <RadioGroup
-                    defaultValue="job"
+                     value={positiontype}
                     className="flex space-x-4"
-                    onValueChange={setPositionType}
+                    onValueChange={(value) => setPositiontype(value)}
                   >
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="job" id="job" />
@@ -153,7 +180,7 @@ export default function PostJobPage() {
                       id="department"
                       name="department"
                       placeholder="e.g. Engineering, Marketing"
-                      onchange={(e) => setDepartment(e.target.value)}
+                      onChange={(e) => setDepartment(e.target.value)}
                       required
                     />
                   </div>
@@ -165,7 +192,7 @@ export default function PostJobPage() {
                       type="number"
                       min="1"
                       defaultValue="1"
-                      onchange={(e) => setNumberposition(e.target.value)}
+                      onChange={(e) => setNumberposition(e.target.value)}
                       required
                     />
                   </div>
@@ -184,7 +211,7 @@ export default function PostJobPage() {
                       id="location"
                       name="location"
                       placeholder="e.g. New York, NY"
-                      onchange={(e) => setLocation(e.target.value)}
+                      onChange={(e) => setLocation(e.target.value)}
                       required
                     />
                   </div>
@@ -205,13 +232,13 @@ export default function PostJobPage() {
                   <RadioGroup
                     defaultValue="fulltime"
                     className="grid grid-cols-2 md:grid-cols-3 gap-2"
-                    onchange={(e) => setJobtype(e.target.value)}
+                    onValueChange={(value) => setJobtype(value)}
                   >
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem
                         value="fulltime"
                         id="fulltime"
-                        onchange={(e) => setJobtype(e.target.value)}
+                        onChange={(e) => setJobtype(e.target.value)}
                       />
                       <Label
                         htmlFor="fulltime"
@@ -258,25 +285,25 @@ export default function PostJobPage() {
                       name="salaryMin"
                       type="number"
                       placeholder="e.g. 50000"
-                      onchange={(e) => setSalary(e.target.value)}
+                      onChange={(e) => setSalary(e.target.value)}
                     />
                   </div>
-                  <div className="space-y-2">
+                  {/* <div className="space-y-2">
                     <Label htmlFor="salaryMax">Maximum Salary</Label>
                     <Input
                       id="salaryMax"
                       name="salaryMax"
                       type="number"
                       placeholder="e.g. 70000"
-                      onchange={(e) => setSalary(e.target.value)}
+                      onChange={(e) => setSalary(e.target.value)}
                     />
-                  </div>
+                  </div> */}
                   <div className="space-y-2">
                     <Label htmlFor="salaryPeriod">Period</Label>
                     <Select
                       name="salaryPeriod"
                       defaultValue="yearly"
-                      onchange={(e) => setPeriod(e.target.value)}
+                      onValueChange={(value) => setPeriod(value)}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select period" />
@@ -293,7 +320,7 @@ export default function PostJobPage() {
                 <div className="space-y-2">
                   <Label htmlFor="benefits">Benefits</Label>
                   <Textarea
-                    onchange={(e) => setBenefits(e.target.value)}
+                    onChange={(e) => setBenefits(e.target.value)}
                     id="benefits"
                     name="benefits"
                     placeholder="e.g. Health insurance, 401(k), Flexible working hours, etc."
@@ -310,7 +337,7 @@ export default function PostJobPage() {
                 <div className="space-y-2">
                   <Label htmlFor="description">Job Description *</Label>
                   <Textarea
-                    onchange={(e) => setJobdetails(e.target.value)}
+                    onChange={(e) => setJobdetails(e.target.value)}
                     id="description"
                     name="description"
                     placeholder="Provide a detailed description of the job..."
@@ -322,7 +349,7 @@ export default function PostJobPage() {
                 <div className="space-y-2">
                   <Label htmlFor="responsibilities">Responsibilities *</Label>
                   <Textarea
-                    onchange={(e) => setResonsibilities(e.target.value)}
+                    onChange={(e) => setResonsibilities(e.target.value)}
                     id="responsibilities"
                     name="responsibilities"
                     placeholder="List the key responsibilities for this position..."
@@ -334,7 +361,7 @@ export default function PostJobPage() {
                 <div className="space-y-2">
                   <Label htmlFor="requirements">Requirements *</Label>
                   <Textarea
-                    onchange={(e) => setRequirement(e.target.value)}
+                    onChange={(e) => setRequirement(e.target.value)}
                     id="requirements"
                     name="requirements"
                     placeholder="List the qualifications, skills, and experience required..."
@@ -346,7 +373,7 @@ export default function PostJobPage() {
                 <div className="space-y-2">
                   <Label htmlFor="skills">Required Skills *</Label>
                   <Input
-                    onchange={(e) => setSkills(e.target.value)}
+                    onChange={(e) => setSkills(e.target.value)}
                     id="skills"
                     name="skills"
                     placeholder="e.g. JavaScript, React, Communication (comma separated)"
@@ -377,7 +404,7 @@ export default function PostJobPage() {
                           <input
                             type="date"
                             className="bg-transparent border-none outline-none cursor-pointer"
-                            onchange={(e) => setDateapply(e.target.value)}
+                            onChange={(e) => setDateapply(e.target.value)}
                           />
                         </Button>
                       </PopoverTrigger>

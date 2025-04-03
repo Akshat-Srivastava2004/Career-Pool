@@ -39,14 +39,25 @@ const uploadOnCloudinary = async (localFilePath) => {
 
     // Remove the locally saved temporary file
     // fs.unlinkSync(localFilePath);
-
+    fs.unlink(localFilePath, (err) => {
+      if (err) {
+        console.error("Error deleting local file:", err);
+      } else {
+        console.log("Local file deleted successfully:", localFilePath);
+      }
+    });
     return response;
   } catch (error) {
     console.error("Error uploading file to Cloudinary:", error);
 
-    // Remove the locally saved temporary file as the upload operation failed
-    fs.unlinkSync(localFilePath);
-
+   
+    fs.unlink(localFilePath, (err) => {
+      if (err) {
+        console.error("Error deleting local file after failure:", err);
+      } else {
+        console.log("Local file deleted after failed upload:", localFilePath);
+      }
+    });
     // Return an object with a null 'url' property or handle the error appropriately
     return { url: null };
   }

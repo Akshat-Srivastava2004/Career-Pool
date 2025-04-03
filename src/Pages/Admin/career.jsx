@@ -17,7 +17,7 @@ export default function CareerPortal() {
   const [message, setMessage] = useState("")
   const [submitted, setSubmitted] = useState(false)
   const [fileName, setFileName] = useState("")
-  const Careerhelper=useContext(AuthContext)
+  const {Careerhelper}=useContext(AuthContext)
   const positions = [
     "Software Engineer",
     "UX Designer",
@@ -90,7 +90,7 @@ export default function CareerPortal() {
                <CardDescription>Fill out the form below to submit your application.</CardDescription>
              </CardHeader>
              <CardContent>
-               <form onSubmit={handleSubmit} className="space-y-6">
+               <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-6">
                  <div className="space-y-2">
                    <Label htmlFor="email">Email</Label>
                    <Input

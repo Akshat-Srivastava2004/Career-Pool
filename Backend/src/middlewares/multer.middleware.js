@@ -8,12 +8,13 @@ const storage = multer.diskStorage({
         cb(null, `${Date.now()}-${file.originalname}`);
     },
 });
-
 const fileFilter = (req, file, cb) => {
-    if (file.mimetype === "application/pdf") {
-        cb(null, true);
+    const allowedMimeTypes = ["application/pdf", "image/jpeg", "image/png","image.jpg"];
+    
+    if (allowedMimeTypes.includes(file.mimetype)) {
+        cb(null, true); // Accept file
     } else {
-        cb(new Error("Only PDF files are allowed!"), false);
+        cb(new Error("Only PDF, JPG, and PNG files are allowed!"), false);
     }
 };
 

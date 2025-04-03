@@ -4,14 +4,15 @@ import { Feedback } from "../models/feedback_model.js";
 
 const feedback=async(req,res)=>{
     try {
-        const {Email,firstname,feedbacktype,Rating,message}=req.body;
+        console.log("the receive data from the frontend ",req.body);
+        const {firstName,rating,feedbackType,email,message}=req.body;
 
         const feedbackdetails=await Feedback.create({
-            firstName:firstname,
-            Email:Email,
-            FeedbackType:feedbacktype,
+            firstName:firstName,
+            Email:email,
+            FeedbackType:feedbackType,
             Messsage:message,
-            Rating:Rating
+            Rating:rating
         })
 
         if(!feedbackdetails){

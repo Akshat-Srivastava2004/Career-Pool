@@ -1,6 +1,11 @@
 import mongoose, { Schema } from "mongoose"; 
 
 const postjobschema = new Schema({
+    companyid:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"Company",
+        require:true,
+    },
     jobtitle:{
         type:String,
         require:[true,'jobtitle is required '],
