@@ -1,9 +1,9 @@
 import { useState } from "react";
- 
+import { toast } from "react-toastify";
 import { AuthContext } from "./AuthContext";
 import { useEffect } from "react";
 export const AuthProvider = ({children})=>{
-    
+
     const [companyname,setCompanyname]=useState(null);
     const [companyid, setCompanyid]=useState(null);
 
@@ -11,6 +11,7 @@ export const AuthProvider = ({children})=>{
     const [jobseekerid,setJobseekerid]=useState(null);
     const [adminname,setAdminname]=useState(null);
     const [companydetails,setCompanydetails]=useState([]);
+    const [companyadmindetails,setCompanyadmindetails]=useState([]);
     const [jobseekersdetailsforadmin,setJobseekersdetailsforadmin]=useState([])
     const [feedbackdetails,setFeedbackdetails]=useState([])
     const [jobs, setJobs] = useState([]); // State to store job listings
@@ -55,7 +56,9 @@ export const AuthProvider = ({children})=>{
         const data = await response.json();
         console.log("Response:", data);
         if(response.ok){
-          alert("Registered Successfully")
+          toast.success("Registered Successfully")
+        }else{
+          toast.warn("please try after some time ")
         }
       } catch (error) {
         console.error("Error:", error);
@@ -103,7 +106,7 @@ export const AuthProvider = ({children})=>{
       const data=await response.json();
       console.log("the data is ",data)
       if(response.ok){
-        alert("Registration successfully")
+        toast("Registration successfully")
       }
     } catch (error) {
       console.log("Error is ",error)
@@ -135,10 +138,10 @@ export const AuthProvider = ({children})=>{
           setJobseekername(data.JobseekersoneData.firstName)
           setJobseekerid(data.JobseekersoneData._id);
           console.log("updated jobseekerlogin name ",data.JobseekersoneData.firstName)
-          alert("Login successfull");
         }else{
-          alert(data.message|| "Login failed");
+          toast(data.message|| "Login failed");
         }
+        toast.success("Login successfull")
       } catch (error) {
         console.log("Error",error);
       }
@@ -172,9 +175,9 @@ export const AuthProvider = ({children})=>{
               console.warn("No company details found in response:", data);
           }
           
-          alert("Login successful");
+          toast.success("Login Successfull!");
       } else {
-          alert(data.message || "Login failed");
+          toast.error(data.message || "Login failed");
       }
   } catch (error) {
       console.error("Error:", error);
@@ -190,9 +193,9 @@ export const AuthProvider = ({children})=>{
       });
       const data=await response.json();
       if(response.ok){
-        alert("JOB/INTERNSHIP posted successfully")
+        toast.success("JOB/INTERNSHIP posted successfully")
       }else{
-        alert(data.message || "job failed ")
+        toast.warn(data.message || "job failed ")
       }
     } catch (error) {
       console.log("Error",error);
@@ -223,10 +226,10 @@ export const AuthProvider = ({children})=>{
         const data =await response.json();
         if(response.ok){
           console.log("the data is ",data)
-          alert("Congratulations !! Your request for job has been reached to owner ",data)
+          toast.success("Congratulations !! Your request for job has been reached to owner ",data)
         }
         else{
-          alert(data.message || "job failed ")
+          toast.warn(data.message || "job failed ")
         }
       } catch (error) {
         console.log("the error is ",error)
@@ -243,10 +246,10 @@ export const AuthProvider = ({children})=>{
       const data = await response.json();
       if(response.ok){
         console.log("the data is ",data)
-        alert("Feedback saved in the database",data)
+        toast.success("Feedback saved in the database",data)
       }
       else{
-        alert("Feedback has not saved in the database")
+        toast.warn("Feedback has not saved in the database")
       }
     } catch (error) {
       console.log("the error is ",error)
@@ -264,7 +267,7 @@ export const AuthProvider = ({children})=>{
       if (data.success) {
         setJobs(data.filterdjobs); // Store jobs in context state
       }else{
-        alert("unable to fetch the data from the database")
+        toast("unable to fetch the data from the database")
       }
     } catch (error) {
       console.log("the error is causing",error)
@@ -381,9 +384,9 @@ export const AuthProvider = ({children})=>{
       if(response.ok){
         console.log("the data is ",data.details)
         setAdminname(data.details)
-        alert("login successfully")
+        toast.success("login successfully")
       }else{
-        alert("unable to login dear")
+        toast.warn("unable to login dear")
       }
     } catch (error) {
       console.log("the error is ",error)
@@ -399,14 +402,54 @@ export const AuthProvider = ({children})=>{
       const data=await response.json()
       if(response.ok){
         console.log("the reponse data is ",data)
-        alert("Details delete successfully")
+        toast.success("Details delete successfully")
       }
     } catch (error) {
       console.log(error)
     }
   }
+
+  const updatepostjob=async(postjobid,jobseekerid)=>{
+    try {
+      console.log("the postjob id is ",postjobid)
+      console.log("the jobseekerid is  ",jobseekerid)
+      const response=await fetch(`${API_URL1}/updateapplyforpostjob`,{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({postjobid,jobseekerid})
+      })
+      const data=await response.json();
+      if(response.ok){
+        toast.success("request successfully submited to the company ")
+        console.log("the data is from ",data)
+      }
+    } catch (error) {
+      console.log("the error caught is ",error)
+    }
+  }
+
+
+  const companyadminpanel=async(userId)=>{
+    try {
+      const response=await fetch(`${API_URL3}/companyadminpanel/${userId}`,{
+        method:"GET",
+      })
+
+      const data=await response.json();
+      if(response.ok){
+        toast.success("company details fetched successfully")
+        setCompanyadmindetails(data)
+        console.log("the log data is ",companyadmindetails)
+        console.log("the postjobfordata is ",data)
+        return data
+      }
+    } catch (error) {
+      console.log("the error caught is ",error)
+    }
+  }
+
     return(
-      <AuthContext.Provider value={{companyid,jobseekername,jobseekerid,companyname,jobs,adminname,jobseekersdetailsforadmin,feedbackdetails,companydetails,register,login,registercompany,logincompany,postjob,Careerhelper,feedbackhelper,GetFeedback,GetJobdseekersdetails,Getcompanydetails,Getcareerdetails,fetchedfilterjob,loginadmin,deletedetails}}>
+      <AuthContext.Provider value={{companyid,jobseekername,jobseekerid,companyname,jobs,adminname,jobseekersdetailsforadmin,feedbackdetails,companydetails,register,login,registercompany,logincompany,postjob,Careerhelper,feedbackhelper,GetFeedback,GetJobdseekersdetails,Getcompanydetails,Getcareerdetails,fetchedfilterjob,loginadmin,deletedetails,updatepostjob,companyadminpanel,companyadmindetails}}>
         {children}
       </AuthContext.Provider>
     )

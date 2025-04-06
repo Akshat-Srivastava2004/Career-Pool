@@ -103,7 +103,16 @@ export default function PostJobPage() {
 
   return (
     <div className="container mt-0">
-      <Navbar />
+       <Navbar
+                 navLinks={[
+               { label: "Home", href: "/" },
+               { label: "Feedback", href: "/feedback" },
+               { label: "Career", href: "/career" },
+               { label:  "Aboutus" ,href:"/aboutus"},
+               {label:"Chat",href:"/chat"},
+             ]}
+             showAuthButtons={false} 
+             />
       <div className="max-w-4xl mx-auto mt-10">
         <div className="mb-8">
           <h1 className="text-3xl font-bold">Post a New Opportunity</h1>

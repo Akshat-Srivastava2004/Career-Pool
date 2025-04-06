@@ -38,7 +38,16 @@ const handleSubmitcompany=async(e)=>{
 
   return (
     <div>
-      <Navbar />
+       <Navbar
+           navLinks={[
+         { label: "Home", href: "/" },
+         { label: "Feedback", href: "/feedback" },
+         { label: "Career", href: "/Career" },
+         { label:  "Aboutus" ,href:"/aboutus"},
+        {label: "Register",href:"/company/register"},
+       ]}
+       showAuthButtons={false} 
+       />
  <div className="container flex items-center justify-center min-h-screen py-10 px-4">
       
       <div className="w-full max-w-md">
@@ -51,7 +60,10 @@ const handleSubmitcompany=async(e)=>{
           <TabsList className="grid w-full grid-cols-2 mb-8">
             <TabsTrigger value="jobSeeker" className="flex items-center gap-2">
               <User className="h-4 w-4" />
+              <a href="/jobseekersregister">
               <span>Job Seeker</span>
+              </a>
+            
             </TabsTrigger>
             <TabsTrigger value="employer" className="flex items-center gap-2">
               <Briefcase className="h-4 w-4" />

@@ -11,16 +11,19 @@ export default function JobSeekersPage() {
   const [loading, setLoading] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [location, setLocation] = useState("")
+  const {updatepostjob}=useContext(AuthContext)
   const [salary, setSalary] = useState("")
   const [jobtitle, setJobtitle] = useState("")
   const [skills, setSkills] = useState("")
   const [jobtype, setJobtype] = useState("")
-
+  const jobseekerName = sessionStorage.getItem("jobseekername")
+  const jobseekerId = sessionStorage.getItem("jobseekerid")
+  console.log("the jobseekers name is ",jobseekerName)
+  console.log("the jobseekers id is ",jobseekerId)
   // Initialize filteredJobs with all jobs when component mounts
   useEffect(() => {
     setFilteredJobs(jobs)
   }, [jobs])
-
   const handleSearch = () => {
     setLoading(true)
     
@@ -83,7 +86,16 @@ export default function JobSeekersPage() {
   
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar />
+            <Navbar
+                navLinks={[
+              { label: "Home", href: "/" },
+              { label: "Feedback", href: "/feedback" },
+              { label: "Career", href: "/career" },
+              { label:  "Aboutus" ,href:"/aboutus"},
+              { label: "Chat",href:"/chat"},
+            ]}
+            showAuthButtons={false}    
+      />
       {/* Header */}
       <div className="bg-blue-600 text-white py-16">
         <div className="container mx-auto px-4">
@@ -258,7 +270,10 @@ export default function JobSeekersPage() {
                             </span>
                           )}
                         </div>
-                        <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                        <button
+                          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                          onClick={() => updatepostjob(job._id, jobseekerId)}
+                        >
                           Apply Now
                         </button>
                       </div>

@@ -48,4 +48,37 @@ const postjob = async(req,res)=>{
     }
 }
 
-export {postjob}
+const updateappliersinpostjob = async(req,res)=>{
+   try {
+     const {postjobid,jobseekerid}=req.body;
+     console.log("the jobseeker id to update in the apply section of postjob model ",jobseekerid)
+     console.log("the postjob id is ",postjobid)
+     if(!jobseekerid){
+         throw new ApiError(500,"jobseeker id not found check it again  ")
+     }
+     if(!postjob){
+        throw new ApiError(500,"postjob is not found check it again ")
+     }
+     const updatedPostJob = await PostJob.findByIdAndUpdate(
+        postjobid,
+        { $addToSet: { Apply: jobseekerid } }, // `$addToSet` avoids duplicates, use `$push` if you allow multiple
+        { new: true }
+    );
+    if(!updatedPostJob){
+        throw new ApiError(500,"updatepostjob is not able to update check it again ")
+    }
+    return res.status(201).json({
+        success:true,
+        message:"Postjob updated successfully",
+        data:updatedPostJob
+    })
+     
+   } catch (error) {
+    console.error("Error updating appliers in postjob:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+    
+   }
+
+}
+
+export {postjob,updateappliersinpostjob}

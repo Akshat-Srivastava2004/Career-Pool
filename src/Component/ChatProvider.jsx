@@ -33,7 +33,6 @@ export const ChatProvider = ({ children }) => {
       newSocket.close();
     };
   }, []);
-
   return (
     <ChatContext.Provider value={{ socket, messages, setMessages }}>
       {children}

@@ -3,7 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 import { Company } from "../models/employee_model.js";
-
+import { PostJob } from "../models/postjob_models.js";
 const companyregister=async(req,res)=>{
 
     const {email,companyname}=req.body;
@@ -120,7 +120,8 @@ const logincompany=(async(req,res)=>{
         throw new ApiError(400,"Password enter by you is incorrect please enter the correct password")
     }
 
-    
+
+
  const {accessToken,refreshToken}= 
     await generateAcessTokenAndRefereshTokens(company._id)
     console.log(accessToken)
@@ -149,4 +150,28 @@ const logincompany=(async(req,res)=>{
      
 })
 
-export {companyregister,logincompany};
+
+const companyadminpanel=async(req,res)=>{
+        try {
+            const userId=req.params.id;
+            console.log("the userid is ",userId);
+            if(!userId){
+                throw new ApiError(500,"companyid is empty recheck the frontend again ")
+            }
+
+            const findpostjobforcompany=await PostJob.find({companyid:userId})
+            if(!findpostjobforcompany){
+              throw new ApiError(500,"findpostjob is not available for this company id ")
+            }
+
+            return res.status(201).json({
+                success:true,
+                message:"postjob find successfully",
+                data:findpostjobforcompany
+            })
+        } catch (error) {
+            console.log("the error is ",error)
+            return res.status(500).json({message:"error caught ", error: error.message})
+        }
+}
+export {companyregister,logincompany,companyadminpanel};

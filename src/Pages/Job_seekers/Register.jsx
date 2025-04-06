@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CheckCircle, Briefcase, User } from "lucide-react";
-import { Link } from "react-router-dom";
+import {  Link } from "react-router-dom";
 import Navbar from "@/Component/Navbar";
 import { AuthContext } from "@/Component/AuthContext";
 export default function ApplicantRegistration() {
@@ -61,7 +61,17 @@ export default function ApplicantRegistration() {
 
   return (
     <div className="container  mt-0">
-      <Navbar />
+     <Navbar
+      navLinks={[
+    { label: "Home", href: "/" },
+    { label: "Feedback", href: "/feedback" },
+    { label: "Career", href: "/career" },
+    { label:  "Aboutus" ,href:"/aboutus"},
+    {label: "Login",href:"/login"},
+  ]}
+  showAuthButtons={false}
+/>
+
       <div className="max-w-3xl mx-auto mt-10">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold mt">Join CareerPool</h1>

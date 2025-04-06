@@ -63,6 +63,10 @@ const postjobschema = new Schema({
         require:true,
         index:true,
     },
+    Apply:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Jobseeker",
+    }],
     startdate:{
         type:String,
         required:true,

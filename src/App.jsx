@@ -13,7 +13,10 @@ import AdminLogin from "./Pages/Admin/login";
 import JobSeekersPage from "./Pages/Job_seekers/display";
 import ChatPage from "./Pages/Job_seekers/chat";
 import { ChatProvider } from "./Component/ChatProvider";
-
+import JobseekerNotifications from "./Pages/Job_seekers/notification";
+import CompanyAdminPanel from "./Pages/Company/companypanel";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
     <AuthProvider>
@@ -31,10 +34,14 @@ function App() {
         <Route path="/login" element={<LoginPage />}/>
         <Route path="/jobseekersregister" element={<ApplicantRegistration />} />
         <Route path="/company/register" element={<EmployerRegistration />} />
+        <Route path="/notification" element={<JobseekerNotifications />}/>
+        <Route path="/companyadminpanel" element={<CompanyAdminPanel />}/>
+       
       </Routes>
       </ChatProvider>
-    
+      <ToastContainer position="top-right" autoClose={3000} />
     </AuthProvider>
+    
   );
 }
 

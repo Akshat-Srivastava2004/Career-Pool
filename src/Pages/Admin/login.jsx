@@ -23,7 +23,15 @@ const navigate=useNavigate();
 
   return (
     <div>
-        <Navbar />
+        <Navbar
+                  navLinks={[
+                { label: "Home", href: "/" },
+                { label: "Feedback", href: "/feedback" },
+                { label: "Career", href: "/Career" },
+                { label:  "Aboutus" ,href:"/aboutus"},
+              ]}
+              showAuthButtons={false} 
+              />
  <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
        
        <div className="sm:mx-auto sm:w-full sm:max-w-md">

@@ -44,7 +44,15 @@ export default function FeedbackPage() {
 
   return (
     <div>
-        <Navbar />
+        <Navbar
+                  navLinks={[
+                { label: "Home", href: "/" },
+                { label: "Feedback", href: "/feedback" },
+                { label: "Career", href: "/Career" },
+                { label:  "Aboutus" ,href:"/aboutus"},
+              ]}
+              showAuthButtons={true} 
+              />
 <div className="min-h-screen bg-gradient-to-b from-blue-50 to-indigo-50 py-12 px-4 sm:px-6 lg:px-8">
        
        <div className="max-w-4xl mx-auto">

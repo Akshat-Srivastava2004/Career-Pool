@@ -3,7 +3,16 @@ import Navbar from "@/Component/Navbar"
 export default function AboutUsPage() {
   return (
     <div className="min-h-screen bg-white">
-        <Navbar/>
+        <Navbar
+                  navLinks={[
+                { label: "Home", href: "/" },
+                { label: "Feedback", href: "/feedback" },
+                { label: "Career", href: "/Career" },
+                { label:  "Aboutus" ,href:"/aboutus"},
+                {label: "Register",href:"/company/register"},
+              ]}
+              showAuthButtons={true} 
+              />
       {/* Hero Section */}
       <div className="bg-blue-600 text-white py-20">
         <div className="container mx-auto px-4 text-center">

@@ -38,7 +38,16 @@ export default function EmployerRegistration() {
 
   return (
     <div className="container mt-0">
-        <Navbar />
+        <Navbar
+                  navLinks={[
+                { label: "Home", href: "/" },
+                { label: "Feedback", href: "/feedback" },
+                { label: "Career", href: "/Career" },
+                { label:  "Aboutus" ,href:"/aboutus"},
+                {label: "login",href:"login"},
+              ]}
+              showAuthButtons={false} 
+              />
       <div className="max-w-3xl mx-auto mt-10">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold">Join CareerPool</h1>
@@ -50,7 +59,10 @@ export default function EmployerRegistration() {
             <TabsTrigger value="applicant" className="flex items-center gap-2" asChild>
               <Link to="/job_seekers/register">
                 <User className="h-4 w-4" />
+               
                 <span>Job Seeker</span>
+              
+               
               </Link>
             </TabsTrigger>
             <TabsTrigger value="employer" className="flex items-center gap-2">
