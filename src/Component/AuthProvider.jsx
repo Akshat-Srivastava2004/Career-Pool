@@ -15,9 +15,9 @@ export const AuthProvider = ({children})=>{
     const [jobseekersdetailsforadmin,setJobseekersdetailsforadmin]=useState([])
     const [feedbackdetails,setFeedbackdetails]=useState([])
     const [jobs, setJobs] = useState([]); // State to store job listings
-    const API_URL1="http://localhost:5000/api/v1/jobseekers";
-    const API_URL3="http://localhost:5000/api/v1/company";
-    const API_URL4="http://localhost:5000/api/v1/admin";
+    const API_URL1="https://career-pool.onrender.com/api/v1/jobseekers";
+    const API_URL3="https://career-pool.onrender.com/api/v1/company";
+    const API_URL4="https://career-pool.onrender.com/api/v1/admin";
 
     // First start with a register function
 

@@ -6,7 +6,6 @@ import routerjobseekers from "./routes/jobseeker.routes.js";
 import routercompany from "./routes/company.routes.js";
 import adminrouter from "./routes/admin.routes.js";
 import { chatrouter } from "./routes/chat.routes.js";
-
 console.log("inside the app.js file");
 // MIDDLEWARE
 
@@ -17,8 +16,12 @@ const app=express()
 
 
 
-app.use(cors())
-
+app.use(cors({
+  origin: ['https://careerpool-frontend.netlify.app/', 'http://localhost:5000'], // Allow these origins
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+  credentials: true, // Allow credentials
+}));
 // app.use(
 //     session({
 //         secret: process.env.SESSION_SECRET || "Iwn3q3HkVF",
