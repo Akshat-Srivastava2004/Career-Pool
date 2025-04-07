@@ -138,10 +138,10 @@ export const AuthProvider = ({children})=>{
           setJobseekername(data.JobseekersoneData.firstName)
           setJobseekerid(data.JobseekersoneData._id);
           console.log("updated jobseekerlogin name ",data.JobseekersoneData.firstName)
+          toast.success("Login successful");
         }else{
           toast(data.message|| "Login failed");
         }
-        toast.success("Login successfull")
       } catch (error) {
         console.log("Error",error);
       }
