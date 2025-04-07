@@ -63,7 +63,7 @@ const Chat = () => {
           currentUserType,
         }
 
-        const response = await fetch("http://localhost:5000/api/v1/chat/create", {
+        const response = await fetch("https://career-pool.onrender.com/api/v1/chat/create", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(requestBody),
