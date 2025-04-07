@@ -14,7 +14,7 @@ const server = http.createServer(app);
 // Initialize WebSocket Server
 const io = new Server(server, {
     cors: {
-        origin: ['https://careerpool-frontend.netlify.app/', 'http://localhost:5000'], // Adjust to your frontend URL
+        origin: ['https://careerpool-frontend.netlify.app', 'http://localhost:5000'], // Adjust to your frontend URL
         methods: ["GET", "POST"],
         credentials: true
     }

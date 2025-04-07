@@ -8,7 +8,7 @@ export const ChatProvider = ({ children }) => {
 
   useEffect(() => {
     // ✅ Connect to the backend WebSocket server
-    const newSocket = io("http://localhost:5000", {
+    const newSocket = io("https://careerpool-frontend.netlify.app", {
       transports: ["websocket", "polling"],
       reconnectionAttempts: 5, // Reconnect up to 5 times if disconnected
       timeout: 10000, // 10 seconds timeout
