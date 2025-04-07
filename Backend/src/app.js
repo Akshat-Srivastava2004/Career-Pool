@@ -17,7 +17,7 @@ const app=express()
 
 
 app.use(cors({
-  origin: ['https://careerpool-frontend.netlify.app/', 'http://localhost:5000'], // Allow these origins
+  origin: ['https://careerpool-frontend.netlify.app', 'http://localhost:5000'], // Allow these origins
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
   allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
   credentials: true, // Allow credentials
